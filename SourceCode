@@ -1,0 +1,78 @@
+'''
+Source code for a simple Caesar Cipher
+Written by Neto 
+03/05/2020
+
+'''
+
+max_key = 26 #GLOBAL VARIABLE TO DEFINE THE SIZE OF THE LIST
+
+class Cipher():
+
+    def getMode(): # function to get if user wants to encrypt or decrypt a message
+
+        while True:
+
+            print('Do you wish to encrypt or decrypt a message?')
+            mode = input().lower() # accepts lower case characthers as answer
+            if mode in 'encrypt e decrypt d'.split(): # takes E and D as asnwer as well
+                return mode
+            else:
+                print('Enter either "encrypt" or "e" or "decrypt" or "d".')
+
+    def getMessage(): #This method ask for the message that will need to be encrypted or decrypted
+        print('Enter your message:')
+        return input() # user input returned
+
+
+    def getKey(): # function takes an integer from user from 1 to 26
+        key = 0
+        while True:
+            print('Enter the key number (1-%s)' % (max_key))
+            key = int(input()) # INT(INPUT) converts str to int
+            if (key >= 1 and key <= max_key): # 
+                return key
+            else:
+                print("OOPS! Choose a number between 1 and 26") # error message if number input is greater than 26 or less than1
+
+    def getTranslatedMessage(mode, message, key): #function that runs all the other steps in the program
+        if mode[0] == 'd':
+            key = -key
+        translated = ''
+
+        for unicode in message:
+
+            if unicode.isalpha(): # .isalpha checks if all characthers in string are in the alphabet
+                num = ord(unicode) # ord returns an unicode of the characther
+                num += key
+
+                if unicode.isupper(): # checks if all cased characters are lowercase
+                    if num > ord('Z'):
+                        num -= 26
+                    elif num < ord('A'):
+                        num += 26
+                elif unicode.islower(): # checks if all cased characters are lowercase
+                    if num > ord('z'):
+                        num -= 26
+                    elif num < ord('a'):
+                        num += 26
+                translated += chr(num) # chr() is the reverse of ord returns a string representing a characther  
+
+            else:
+
+                translated += unicode
+
+        return translated
+
+# Assign functions to variables to be called later
+    
+    mode = getMode()
+
+    message = getMessage()
+
+    key = getKey()
+
+
+
+    print('Your translated text is:')
+    print(getTranslatedMessage(mode, message, key))
